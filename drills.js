@@ -225,7 +225,115 @@ const menuPrices = Object.fromEntries(
     .map((item) => [item.name, item.price])
 );
 console.log("Build a menu price list:", menuPrices);
-console.log(JSON.stringify(orders) === ORIGINAL); // true
+console.log(JSON.stringify(orders) === ORIGINAL);
+
+// station 4 Immutable updates
+
+// Question 20: Mark a pending order as delivered
+const markDelivered = (orders, id) =>
+  orders.map((order) =>
+    order.id === id && order.status === "pending"
+      ? { ...order, status: "delivered" }
+      : order
+  );
+
+const updatedOrders20 = markDelivered(orders, 105);
+console.log(" pending order as delivered", updatedOrders20.find((order) => order.id === 105));
+console.log("Original unchanged:", JSON.stringify(orders) === ORIGINAL); 
+
+
+
+// Question 21: Rate only delivered orders
+const rateOrder = (orders, id, rating) => {
+  const order = orders.find((order) => order.id === id);
+
+  // If the order does not exist or is not delivered, return the same array
+  if (!order || order.status !== "delivered") {
+    return orders;
+  }
+
+  // Create a new array and update only the selected order
+  return orders.map((order) =>
+    order.id === id ? { ...order, rating } : order
+  );
+};
+
+//Question 21 rateOrder(orders, id, rating) — only allowed on delivered orders; otherwise return the array
+
+const updatedOrders21 = rateOrder(orders, 106, 4);
+console.log(
+  " Delivered order rating:",
+  updatedOrders21.find((order) => order.id === 106).rating
+);
+const pendingResult = rateOrder(orders, 108, 5);
+console.log(
+  " Pending order unchanged:",
+  pendingResult === orders
+); 
+console.log( "Original orders unchanged:",JSON.stringify(orders) === ORIGINAL);
+
+
+
+// Question 22: Change a customer's district
+const changeDistrict = (orders, id, district) =>
+  orders.map((order) =>
+    order.id === id
+      ? {...order,customer: { ...order.customer, district}}
+      : order
+  );
+const updatedOrders22 = changeDistrict(orders, 101, "Kicukiro");
+console.log("Change a customer's district:", updatedOrders22.find((order) => order.id === 101));
+console.log("Original unchanged:", JSON.stringify(orders) === ORIGINAL); 
+
+
+
+// Question 23: Add an item to an order
+const addItem = (orders, id, item) =>
+  orders.map((order) =>
+    order.id === id
+      ? {
+          ...order,
+          items: [...order.items, { ...item }]
+        }
+      : order
+  );
+
+const updatedOrders23 = addItem(orders, 101, {
+  name: "Sambusa",
+  price: 500,
+  qty: 2
+});
+console.log("Add an item to an order", updatedOrders23.find((order) => order.id === 101));
+console.log("Original unchanged:", JSON.stringify(orders) === ORIGINAL); 
+
+
+// Question 24: Remove cancelled orders
+const removeCancelled = (orders) =>
+  orders.filter((order) => order.status !== "cancelled");
+
+const updatedOrders24 = removeCancelled(orders);
+console.log("Remaining orders:", updatedOrders24.length); 
+console.log("Original unchanged:", JSON.stringify(orders) === ORIGINAL);
+
+
+// Question 25: Apply a discount to every item
+const applyDiscount = (orders, percent) =>
+  orders.map((order) => ({
+    ...order,
+    items: order.items.map((item) => ({
+      ...item,
+      price: Math.round(item.price * (1 - percent / 100))
+    }))
+  }));
+
+const discountedOrders = applyDiscount(orders, 10);
+console.log(" discount to every item:", discountedOrders[0]);
+console.log("Original unchanged:", JSON.stringify(orders) === ORIGINAL); // true
+
+
+
+
+
 
 
 
