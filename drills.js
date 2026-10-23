@@ -134,8 +134,101 @@ const statusCounts = orders.reduce((counts, order) => {
   return counts;
 }, {});
 
-console.log("Question 14:", statusCounts);
+console.log(" Count orders per status:", statusCounts);
 console.log(JSON.stringify(orders) === ORIGINAL); 
+
+// station 3:Grouping &amp; ranking
+
+
+// Question 15: Revenue per district from delivered orders
+const revenuePerDistrict = orders
+  .filter((order) => order.status === "delivered")
+  .reduce((revenue, order) => {
+    const district = order.customer.district;
+    revenue[district] =
+      (revenue[district] || 0) + orderTotal(order);
+    return revenue;
+  }, {});
+
+console.log("Revenue per district from delivered orders:", revenuePerDistrict);
+console.log(JSON.stringify(orders) === ORIGINAL);
+
+
+// Question 16: Group orders by date
+const ordersByDate = Object.groupBy(
+  orders,
+  (order) => order.date
+);
+
+const dailySummary = Object.entries(ordersByDate).map(
+  ([date, dateOrders]) => ({
+    date,
+    count: dateOrders.length,
+    revenue: dateOrders.reduce(
+      (sum, order) => sum + orderTotal(order),
+      0
+    )
+  })
+);
+
+console.log("Group orders by date:", dailySummary);
+console.log(JSON.stringify(orders) === ORIGINAL);
+
+
+// Question 17: Top 3 best-selling items by quantity
+const itemQuantities = orders
+  .flatMap((order) => order.items)
+  .reduce((totals, item) => {
+    totals[item.name] =
+      (totals[item.name] || 0) + item.qty;
+    return totals;
+  }, {});
+
+const topThreeItems = Object.entries(itemQuantities)
+  .map(([name, qty]) => ({ name, qty }))
+  .toSorted((a, b) => b.qty - a.qty)
+  .slice(0, 3);
+
+console.log("Top 3 best-selling items:", topThreeItems);
+
+console.log(JSON.stringify(orders) === ORIGINAL); 
+
+
+// Question 18: Customer order count and total spent
+const customerSummary = orders.reduce((customers, order) => {
+  const name = order.customer.name;
+
+  if (!customers[name]) {
+    customers[name] = {
+      name,
+      orders: 0,
+      spent: 0
+    };
+  }
+
+  customers[name].orders += 1;
+  customers[name].spent += orderTotal(order);
+
+  return customers;
+}, {});
+
+const customerRanking = Object.values(customerSummary)
+  .toSorted((a, b) => b.spent - a.spent);
+console.log("Customer order count and total spent:", customerRanking);
+console.log(JSON.stringify(orders) === ORIGINAL); 
+
+
+// Question 19: Build a menu price list
+const menuPrices = Object.fromEntries(
+  orders
+    .flatMap((order) => order.items)
+    .map((item) => [item.name, item.price])
+);
+console.log("Build a menu price list:", menuPrices);
+console.log(JSON.stringify(orders) === ORIGINAL); // true
+
+
+
 
 
 
