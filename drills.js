@@ -1,4 +1,4 @@
-import {orders} from "./data.js"
+import {orders} from "./mini-dashboard/src/data.js"
 const ORIGINAL = JSON.stringify(orders);
 
  // Helper function required for Question 9

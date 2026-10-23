@@ -1,0 +1,105 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Kigali Eats order and revenue dashboard"/>
+    <title>Kigali Eats | Mini Dashboard</title>
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
+
+  <body class="min-h-screen bg-slate-50 text-slate-800">
+    <header class="bg-emerald-950 text-white">
+      <div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div>
+          <h1 class="text-2xl font-bold sm:text-3xl">Kigali Eats</h1>
+        </div>
+        <span class="w-fit rounded-full bg-emerald-800 px-4 py-2 text-sm">
+          Mini Dashboard
+        </span>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6">
+      <section>
+        <h2 class="mb-4 text-xl font-bold">Overview</h2>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm text-slate-500">Total revenue</p>
+            <p id="total-revenue" class="mt-2 text-2xl font-bold text-emerald-800">—</p>
+            <p class="mt-1 text-xs text-slate-500">All orders</p>
+          </article>
+
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm text-slate-500">Delivered orders</p>
+            <p id="delivered-count" class="mt-2 text-2xl font-bold">—</p>
+            <p class="mt-1 text-xs text-slate-500">Successfully delivered</p>
+          </article>
+
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm text-slate-500">Average rating</p>
+            <p id="average-rating" class="mt-2 text-2xl font-bold">—</p>
+            <p class="mt-1 text-xs text-slate-500">Out of 5</p>
+          </article>
+
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm text-slate-500">Best-selling item</p>
+            <p id="best-selling" class="mt-2 text-2xl font-bold">—</p>
+            <p id="best-selling-quantity" class="mt-1 text-xs text-slate-500"></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <h2 class="text-xl font-bold">Revenue by district</h2>
+        <p class="mb-6 mt-1 text-sm text-slate-500">
+          Revenue from delivered orders · RWF
+        </p>
+        <div id="district-chart" class="space-y-5"></div>
+      </section>
+
+      <section class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 class="text-xl font-bold">Orders</h2>
+            <p class="mt-1 text-sm text-slate-500">Browse orders by status</p>
+          </div>
+
+          <div id="filter-buttons" class="flex flex-wrap gap-2">
+            <button data-filter="all" class="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-medium text-white">All</button>
+            <button data-filter="delivered" class="rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">Delivered</button>
+            <button data-filter="pending" class="rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">Pending</button>
+            <button data-filter="cancelled" class="rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">Cancelled</button>
+          </div>
+        </div>
+
+        <p id="order-count" class="mb-3 mt-5 text-sm text-slate-500"></p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[650px] text-left text-sm">
+            <thead class="bg-slate-100 text-slate-600">
+              <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Customer</th>
+                <th class="px-4 py-3">District</th>
+                <th class="px-4 py-3">Total (RWF)</th>
+                <th class="px-4 py-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-6 text-center text-sm text-slate-500">
+      Kigali Eats · Week 5 Array & Object Manipulation
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
